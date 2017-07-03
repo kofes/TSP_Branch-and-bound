@@ -7,8 +7,6 @@
 
 static std::vector< std::vector<double> > matrix;
 size_t size;
-std::ifstream input("input.txt");
-std::ofstream output("output.txt");
 const double max_value = 1e+7;
 const double eps = 1e-4;
 
@@ -148,25 +146,27 @@ void TSP::print() {
 }
 
 int main () {
-  input >> size;
-  matrix.resize(size);
-  for (size_t i = 0; i < size; ++i)
-    matrix[i].resize(size, 0);
-  for (size_t i = 0; i < size; ++i)
-    for (size_t j = 0; j < size; ++j) {
-      if (i==j) matrix[i][j] = max_value;
-      double cost;
-      input >> cost;
-      matrix[i][j] = cost;
+  for (size_t i = 0; i < 11; ++i) {
+    std::ifstream input("input" + std::to_string(i) + ".txt");
+    std::ofstream output("output" + std::to_string(i) + ".txt");
+    input >> size;
+    matrix.resize(size);
+    for (size_t i = 0; i < size; ++i)
+      matrix[i].resize(size, 0);
+    for (size_t i = 0; i < size; ++i)
+      for (size_t j = 0; j < size; ++j) {
+        if (i==j) matrix[i][j] = max_value;
+        double cost;
+        input >> cost;
+        matrix[i][j] = cost;
+      }
+    try {
+      TSP tsp;
+      tsp.solve();
+      output << tsp.get_min() << std::endl;
+    } catch (std::string& err) {
+      std::cout << err << std::endl;
     }
-  try {
-    TSP tsp;
-    tsp.solve();
-    std::cout << tsp.get_min() << std::endl;
-    // if (tsp.get_min() != max_value)
-    //   tsp.print();
-  } catch (std::string& err) {
-    std::cout << err << std::endl;
   }
   return 0;
 }
