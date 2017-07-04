@@ -38,10 +38,10 @@ TSP::TSP() {
       cmatind.push_back(size+j);
     }
   std::vector<double> cmatval(ncols*nrows, 1.0);
-  std::vector<double> obj;
+  std::vector<double> obj.resize(ncols);
   for (size_t i = 0; i < size; ++i)
     for (size_t j = 0; j < size; ++j)
-      obj.push_back(matrix[i][j]);
+      obj[i*size + j] = matrix[i][j];
   std::vector<double> rhs(nrows, 1.0);
   std::vector<char> sense(nrows, 'E');
   std::vector<double> lower(ncols, 0.0);
