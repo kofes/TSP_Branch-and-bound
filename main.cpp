@@ -61,14 +61,10 @@ void TSP::solve() {
   int indicator;
   int status;
   indicator = QSopt_primal(qSprob, &status);
-  if (indicator) {
-    std::cerr << "QSopt_dual failed with return's: " << indicator << std::endl;
+  if (indicator)
     return;
-  }
-  if (status != QS_LP_OPTIMAL) {
-    std::cerr << "LP could not be solved, status : " << status << std::endl;
+  if (status != QS_LP_OPTIMAL)
     return;
-  }
 
   double value;
   std::vector<double> x(ncols, -1.0);
